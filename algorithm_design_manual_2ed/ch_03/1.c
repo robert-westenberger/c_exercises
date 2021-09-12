@@ -53,14 +53,13 @@ struct parensInfo checkParens(char *stringToCheck) {
             else {
                 pop(stack);
             }
-          
         }
     }
     if (isEmpty(stack)) {
         returnValue = set(true, 0);
     }
     else {
-        returnValue = set(false, 0);
+        returnValue = set(false, pop(stack));
     }
     
     return returnValue;
@@ -71,19 +70,12 @@ int main()
     char test_2[5] = ")()(";
     char test_3[4] = "())";
     char test_4[5] = "(())";
-    printf("%s: %d\n", test_1, checkParens(test_1).isValid);
-    printf("%s: %d\n", test_2, checkParens(test_2).isValid);
-    printf("%s: %d\n", test_3, checkParens(test_3).isValid);
-    printf("%s: %d\n", test_4, checkParens(test_4).isValid);
-    // Stack* stack = createStack(100);
-    // push(stack, 10);
-    // push(stack, 20);
-    // printf("%d popped from stack\n", pop(stack));
-    // int myfoo = foo(4);
-    // printf("%d", myfoo);
+    char test_5[6] = "(()))";
+    printf("%s: %d %d\n", test_1, checkParens(test_1).isValid, checkParens(test_1).firstInvalidParensLocation);
+    printf("%s: %d %d\n", test_2, checkParens(test_2).isValid, checkParens(test_2).firstInvalidParensLocation);
+    printf("%s: %d %d\n", test_3, checkParens(test_3).isValid, checkParens(test_3).firstInvalidParensLocation);
+    printf("%s: %d %d\n", test_4, checkParens(test_4).isValid, checkParens(test_4).firstInvalidParensLocation);
+    printf("%s: %d %d\n", test_5, checkParens(test_5).isValid, checkParens(test_5).firstInvalidParensLocation);
     return 0;
-    // checkParens(test_1);
-	
 
-	return 0;
 }
