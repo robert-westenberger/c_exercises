@@ -46,7 +46,7 @@ struct parensInfo checkParens(char *stringToCheck) {
             push(stack, i);
         }
         if (currChar == ')') {
-            if (isEmpty(stack)) {
+            if (isEmptyStack(stack)) {
                 returnValue = set(false, i);
                 return returnValue;
             }
