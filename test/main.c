@@ -1,53 +1,41 @@
 #include <stdio.h>
-#include <inttypes.h>
+#include <stdbool.h>
+#include <string.h>
+#include "data_structures.h"
 
-/* pointers and arrays */
-int main() {
-    const int CAPACITY = 5;
-    int a[5] = { 22, 35, 12, 21, 33 };
-
-    for (int i = 0; i < CAPACITY; i++) {
-        printf("%d %d \n", a[i], *(a+i));
+int main()
+{
+    DynamicArray *my_array = create_DynamicArray();
+    append_DynamicArray(my_array, 1);
+    append_DynamicArray(my_array, 2);
+    append_DynamicArray(my_array, 3);
+    append_DynamicArray(my_array, 4);
+    append_DynamicArray(my_array, 5);
+    append_DynamicArray(my_array, 6);
+    append_DynamicArray(my_array, 7);
+    append_DynamicArray(my_array, 8);
+    append_DynamicArray(my_array, 9);
+    for (size_t i = 0; i < my_array->size; i++) {
+        printf("%d \n", *(my_array->items + i));
+        
     }
+    printf("capacity: %d \n", my_array->capacity);
+    printf("size: %d \n", my_array->size);
+    // List* list_1 = createList();
+    // pushToList(&list_1, 9);
+    // pushToList(&list_1, 8);
+    // pushToList(&list_1, 7);
+    // pushToList(&list_1, 6);
+    // pushToList(&list_1, 5);
+    // pushToList(&list_1, 4);
+    // pushToList(&list_1, 3);
+    // pushToList(&list_1, 2);
+    // pushToList(&list_1, 1);
+    // pushToList(&list_1, 0);
+    // printList(list_1);
+    // printf("\n");
+    // deleteFromListByValue2(&list_1, 3);
+    // printList(list_1);
     return 0;
-}
 
-/* pointer to pointer */ 
-int pointer_to_pointer_example() {
-    int a = 1025;
-    int *p = &a;
-    int **q = &p;
-    int ***r = &q;
-    ***r = 10;
-    printf("size of integer is %lu \n", sizeof(int));
-    printf("Address = %p \n value = %d \n", p, **q);
-    
-
-    return 0;
-}
-
-/* void / generic pointer example */ 
-int void_generic_example() {
-    int a = 1025;
-    int *p = &a;
-    printf("size of integer is %lu \n", sizeof(int));
-    printf("Address = %p \n value = %d \n", p, *p);
-    // we cannot dereference a void pointer
-    void *p0;
-    p0 = p;
-    printf("Address = %p", p0 );
-    return 0;
-}
-int typecasting_example() {
-    int a = 1025;
-    int *p = &a;
-    printf("size of integer is %lu \n", sizeof(int));
-    printf("Address = %p \n value = %d \n", p, *p);
-    printf("Address = %p \n value = %d \n", p+1, *(p+1));
-    char *p0;
-    p0 = (char*)p; // typecasting
-    printf("size of integer is %lu \n", sizeof(int));
-    printf("Address = %p \n value = %d \n", p0, *p0);
-    printf("Address = %p \n value = %d \n", p0, *(p0+1));
-    return 0;
 }
