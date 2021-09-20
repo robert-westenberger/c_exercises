@@ -8,7 +8,7 @@
             "name": "(lldb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/algorithm_design_manual_2ed/ch_03/my_app",
+            "program": "${workspaceFolder}/algorithm_design_manual_2ed/my_app",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
