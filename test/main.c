@@ -8,6 +8,7 @@ int main()
     DynamicArray *my_array = create_DynamicArray();
     append_DynamicArray(my_array, 1);
     append_DynamicArray(my_array, 2);
+    prepend_DynamicArray(my_array, 0);
     append_DynamicArray(my_array, 3);
     append_DynamicArray(my_array, 4);
     append_DynamicArray(my_array, 5);
@@ -15,6 +16,7 @@ int main()
     append_DynamicArray(my_array, 7);
     append_DynamicArray(my_array, 8);
     append_DynamicArray(my_array, 9);
+    
     for (size_t i = 0; i < my_array->size; i++) {
         printf("%d \n", *(my_array->items + i));
         
