@@ -1,52 +1,84 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+#include <stdlib.h>
 #include "data_structures.h"
 
-void printCallback(int item) {
-    printf("%d \n", item);
+
+/* 
+3rd edition
+Stacks, Queues, and Lists
+3.4 Design a stack S that supports S.push(x), S.pop(), and S.findmin(), which
+returns the minimum element of S. All operations should run in constant time.
+
+This is also a problem on leetcode... 
+https://leetcode.com/problems/min-stack/
+*/
+
+/*-----------------------------------------------------------------------*/
+
+const int STACK_MAX_SIZE = 10000;
+typedef struct MinStack {  
+    int top;
+    int maxsize;
+    int minvalue;
+    int* items;
+} MinStack;
+
+MinStack* minStackCreate() {
+    MinStack* stack = (MinStack*)malloc(sizeof(MinStack));
+    stack->maxsize = STACK_MAX_SIZE;
+    stack->top = -1;
+    stack->items = (int*)malloc(stack->maxsize * sizeof(int));
+    return stack;
 }
 
-void test(DynamicArray *my_array, char message[]) {
-    printf("START \n");
-    printf("%s \n", message);
-    printf("capacity %d \n", my_array->capacity);
-    printf("size %d \n", my_array->size);
-    printf("END \n");
-    printf("\n");
+int minStackIsFull(MinStack* stack)
+{
+    return stack->top == stack->maxsize - 1;
 }
+
+int minStackIsEmpty(MinStack* stack)
+{
+    return stack->top == -1;
+}
+
+void minStackPush(MinStack* obj, int val) {
+  if (minStackIsFull(obj)) {
+    return;
+  }
+    obj->items[++obj->top] = val;
+}
+
+void minStackPop(MinStack* obj) {
+  if (minStackIsEmpty(obj)) {
+    return;
+  }     
+    // obj->items[obj->top--];
+}
+
+int minStackTop(MinStack* obj) {
+  return obj->top;
+}
+
+int minStackGetMin(MinStack* obj) {
+  return obj->minvalue;
+}
+
+void minStackFree(MinStack* obj) {
+    free(obj);
+}
+
 int main()
 {
-    DynamicArray *my_array = create_DynamicArray();
-    // test(my_array, "Just created array");
-    // append_DynamicArray(my_array, 1);
-    // test(my_array, "Just appended 1 to array");
-    // append_DynamicArray(my_array, 2);
-    // test(my_array, "Just appended 2 to array");
-    // append_DynamicArray(my_array, 3);
-    // test(my_array, "Just appended 3 to array");
-    // append_DynamicArray(my_array, 4);
-    // test(my_array, "Just appended 4 to array");
-    // removeAtIndex_DynamicArray(my_array, 3);
-    // test(my_array, "Just removed 4 from array");
-    // removeAtIndex_DynamicArray(my_array, 2);
-    // test(my_array, "Just removed 3 from array");
-    // removeAtIndex2_DynamicArray(my_array, 1);
-    // test(my_array, "Just removed 2 from array");
-    // append_DynamicArray(my_array, 2);
-    // test(my_array, "Just appended 2 to array");
-    // append_DynamicArray(my_array, 2);
-    // test(my_array, "Just appended 2 to array");
-    // // append_DynamicArray(my_array, 5);
-    // // append_DynamicArray(my_array, 6);
-    // // append_DynamicArray(my_array, 7);
-    // // append_DynamicArray(my_array, 8);
-    // // append_DynamicArray(my_array, 9);
-    // // prepend_DynamicArray(my_array, 0);
-    // // removeAtIndex2_DynamicArray(my_array, 5);
-    // // forEach_DynamicArray(my_array, &printCallback);
-    // // printf("capacity %d \n", my_array->capacity);
-    // // printf("size %d \n", my_array->size);
+    MinStack *minStack = minStackCreate();
+    minStackPush(minStack, -2);
+    minStackPush(minStack, 0);
+    minStackPush(minStack, -3);
+    minStackGetMin(minStack); // return -3
+    minStackPop(minStack);
+    minStackTop(minStack); // return 0
+    minStackGetMin(minStack); // return -2
     return 0;
 
 }
