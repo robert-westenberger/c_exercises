@@ -1,3 +1,4 @@
+#include <limits.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
@@ -30,6 +31,7 @@ MinStack* minStackCreate() {
     stack->maxsize = STACK_MAX_SIZE;
     stack->top = -1;
     stack->items = (int*)malloc(stack->maxsize * sizeof(int));
+    stack->minvalue= INT_MAX;
     return stack;
 }
 
@@ -47,18 +49,22 @@ void minStackPush(MinStack* obj, int val) {
   if (minStackIsFull(obj)) {
     return;
   }
-    obj->items[++obj->top] = val;
+  if (obj->minvalue > val) {
+    obj->minvalue = val;
+  }
+  obj->top = obj->top+1; 
+  obj->items[obj->top] = val;
 }
 
 void minStackPop(MinStack* obj) {
   if (minStackIsEmpty(obj)) {
     return;
-  }     
-    // obj->items[obj->top--];
+  }    
+  obj->top = obj-> top - 1;
 }
 
 int minStackTop(MinStack* obj) {
-  return obj->top;
+  return obj->items[obj->top];
 }
 
 int minStackGetMin(MinStack* obj) {
@@ -75,10 +81,12 @@ int main()
     minStackPush(minStack, -2);
     minStackPush(minStack, 0);
     minStackPush(minStack, -3);
-    minStackGetMin(minStack); // return -3
+    minStackGetMin(minStack);
+    printf("%d \n", minStackGetMin(minStack)); // -3
+    __asm("nop");
     minStackPop(minStack);
-    minStackTop(minStack); // return 0
-    minStackGetMin(minStack); // return -2
+    printf("%d \n", minStackTop(minStack)); // 0
+    printf("%d \n", minStackGetMin(minStack)); // -2
     return 0;
 
 }
