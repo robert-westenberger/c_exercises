@@ -45,25 +45,69 @@ int minStackIsEmpty(MinStack* stack)
     return stack->top == -1;
 }
 
+/* When pushing to the stack, in the case of the new 
+value being smaller than the current minvalue, the value pushed
+onto the stack will be (2 * value - minvalue).
+
+(2 * value - minvalue) will always be less than value, because 
+val < minvalue .. which means 
+val - minvalue < 0
+
+Adding value to both sides gives us
+value + value - minvalue < 0 + value
+2value - minvalue < value
+*/
 void minStackPush(MinStack* obj, int val) {
   if (minStackIsFull(obj)) {
     return;
   }
-  if (obj->minvalue > val) {
+  obj->top = obj->top+1;
+  if (minStackIsEmpty(obj)) {
+    obj->items[obj->top] = val;
     obj->minvalue = val;
+    return;
   }
-  obj->top = obj->top+1; 
+  if (obj->minvalue > val) {
+    obj->items[obj->top] = (2 * val - obj->minvalue);
+    obj->minvalue = val;
+    return;
+  }
   obj->items[obj->top] = val;
 }
 
+/* When popping from the stack, if we are popping the smallest element,
+update the new min value to be that of 2currentmin - poppedvalue. 
+
+new min = previous min 
+
+new min = 2currentmin - poppedvalue
+
+// popped value was inserted as 2x - previousmin, where previousmin
+// was the min before popped value was inserted)
+popped value = 2x - previousmin 
+
+// from above equation.  
+currentmin=x
+
+new min = 2currentmin - popped value
+        = 2x - (2x - previousmin)
+        = previous min
+*/
 void minStackPop(MinStack* obj) {
   if (minStackIsEmpty(obj)) {
     return;
-  }    
+  }
+  int poppedvalue = obj->items[obj->top];
   obj->top = obj-> top - 1;
+  if (poppedvalue < obj->minvalue) {
+    obj->minvalue = (2 * obj->minvalue - poppedvalue);
+  } 
 }
 
 int minStackTop(MinStack* obj) {
+  if (obj->items[obj->top] < obj->minvalue) {
+    return obj->minvalue;
+  }
   return obj->items[obj->top];
 }
 
@@ -78,15 +122,25 @@ void minStackFree(MinStack* obj) {
 int main()
 {
     MinStack *minStack = minStackCreate();
-    minStackPush(minStack, -2);
-    minStackPush(minStack, 0);
-    minStackPush(minStack, -3);
-    minStackGetMin(minStack);
-    printf("%d \n", minStackGetMin(minStack)); // -3
-    __asm("nop");
-    minStackPop(minStack);
-    printf("%d \n", minStackTop(minStack)); // 0
-    printf("%d \n", minStackGetMin(minStack)); // -2
+    minStackPush(minStack, 8);
+    // printf("8  Top:%d Min:%d \n", minStackTop(minStack), minStackGetMin(minStack));
+    // minStackPush(minStack, 10);
+    // printf("10 Top:%d Min:%d \n", minStackTop(minStack), minStackGetMin(minStack));
+    // minStackPush(minStack, 6);
+    // printf("6  Top:%d Min:%d \n", minStackTop(minStack), minStackGetMin(minStack));
+    // minStackPush(minStack, 3);
+    // printf("3  Top:%d Min:%d \n", minStackTop(minStack), minStackGetMin(minStack));
+    // minStackPush(minStack, 7);
+    // printf("7  Top:%d Min:%d \n", minStackTop(minStack), minStackGetMin(minStack));
+    // minStackPop(minStack);
+    // printf("3  Top:%d Min:%d \n", minStackTop(minStack), minStackGetMin(minStack));
+    // minStackPop(minStack);
+    // printf("6  Top:%d Min:%d \n", minStackTop(minStack), minStackGetMin(minStack));
+   
+   // printf("%d \n", minStackGetMin(minStack)); // -3
+    // minStackPop(minStack);
+    // printf("%d \n", minStackTop(minStack)); // 0
+    // printf("%d \n", minStackGetMin(minStack)); // -2
     return 0;
 
 }
