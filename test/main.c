@@ -11,13 +11,13 @@ int main()
     insert_RedBlackTree(&tree, 1);
     insert_RedBlackTree(&tree, 2);
     insert_RedBlackTree(&tree, 3);
-    
-    insert_RedBlackTree(&tree, 4);
     insert_RedBlackTree(&tree, 5);
+    
 
+    deleteValue_RedBlackTree(&tree, 3);
+    deleteValue_RedBlackTree(&tree, 5);
     print_RedBlackTree(tree, 0);
-    // print_RedBlackTree(tree, 0);
-    // printf("\n");
+  
  
     return 0;
 
