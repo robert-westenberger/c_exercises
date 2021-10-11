@@ -8,7 +8,7 @@
             "name": "(lldb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/test/my_app",
+            "program": "${workspaceFolder}/my_app",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

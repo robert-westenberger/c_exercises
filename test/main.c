@@ -1,3 +1,4 @@
+#include <limits.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
@@ -30,8 +31,18 @@ int* createRange(int n) {
 
     return newArray;
 }
-int findSmallestValueInRange() {
-    
+int findSmallestValueInRange(int *arr, int end, int smallest) {
+    if (0 >= end) {
+        if (*arr < smallest) {
+            return *arr;
+        }
+        return smallest;
+    }
+
+    if (*arr < smallest) {
+        return findSmallestValueInRange((arr + 1), end - 1, *arr);
+    } 
+    return findSmallestValueInRange((arr + 1), end - 1, smallest);
 }
 int** createLookupTable(int *n, int size) {
     int **lookupTable = (int **)malloc(size * sizeof(int *));
@@ -41,7 +52,7 @@ int** createLookupTable(int *n, int size) {
     }
     for (int i = 0; i < size; i++) { 
        for (int j = 0; j < size; j++) { 
-           lookupTable[i][j] = n[i] + n[j];
+           lookupTable[i][j] = findSmallestValueInRange(&(n[i]), j - i, INT_MAX);
         } 
     }
     return lookupTable;
@@ -50,14 +61,20 @@ int main()
 {   
     srand(time(NULL));
     int *unsortedSequenceOfRandomNumbers = createRange(SEQUENCE_LENGTH);
+    
+    for (int x = 0; x < SEQUENCE_LENGTH; x++) { 
+        printf("%d: %d ", x, unsortedSequenceOfRandomNumbers[x]);
+    }
+    printf("\n \n");
+
     int **lookupTable = createLookupTable(unsortedSequenceOfRandomNumbers, SEQUENCE_LENGTH);
     for (int i = 0; i < SEQUENCE_LENGTH; i++) {
-       printf("\n"); 
+        printf("\n");
        for (int j = 0; j < SEQUENCE_LENGTH; j++) {
             if (lookupTable[i][j] < 10) {
-                printf(" %d ", lookupTable[i][j]);
+                printf("[i:%d j:%d]  %d  ",i, j, lookupTable[i][j]);
             } else {
-                printf("%d ", lookupTable[i][j]);
+                printf("[i:%d j:%d] %d  ", i, j, lookupTable[i][j]);
             }
             
         } 
