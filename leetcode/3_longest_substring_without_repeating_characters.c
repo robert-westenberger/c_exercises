@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <stdlib.h>
+#include "string_helpers.h"
 #include "map.h"
 
 /*
