@@ -2,7 +2,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <stdlib.h>
-
+#include <assert.h>
 
 /*
 
@@ -29,16 +29,23 @@ void inOrderTraversalHelper(struct TreeNode* root, int* returnSize, int** result
 }
 
 
-int** inorderTraversal(struct TreeNode* root, int* returnSize){
-    static int* result = NULL;
+
+
+int* inorderTraversal(struct TreeNode* root, int* returnSize){
+    int* result = NULL;
+    int** ptr = &result;
     returnSize = malloc(sizeof(int));
     *returnSize = 0;
     if (root != NULL) {
-        inOrderTraversalHelper(root, returnSize, &result);
+        inOrderTraversalHelper(root, returnSize, ptr);
     }
-    return &result;
+    
+    for (int i = 0; i < *returnSize; i++) {
+        *(result + i) = **(ptr + i);
+    }
+   
+    return result;
 }
-
 
 int main()
 {   
@@ -48,13 +55,11 @@ int main()
     root->val = 1;
     node1->val = 2;
     node2->val = 3;
-    root->left = NULL;
     root->right = node1;
     node1->left = node2;
-    node1->right = NULL;
-    node2->right = NULL;
-    node2->left = NULL;
-    int** result = inorderTraversal(root,0);
+    int* result = inorderTraversal(root,0);
+    int* result2 = inorderTraversal(NULL,0);
+    // int** result = inorderTraversal(root,0);
     // *result = 1;
     // *(result+1) = 3;
     // *(result+2) = 2;
