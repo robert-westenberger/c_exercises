@@ -17,33 +17,32 @@ struct TreeNode {
     struct TreeNode *right;
 };
 
-void inOrderTraversalHelper(struct TreeNode* root, int* returnSize, int** result) {
+void inOrderTraversalHelper(struct TreeNode* root, int* returnSize, int** result_ref) {
     if (root != NULL) {
-        inOrderTraversalHelper(root->left, returnSize, result);
-        *(result + *returnSize) = malloc(sizeof(int));
-        **(result + *returnSize) = root->val;
+        inOrderTraversalHelper(root->left, returnSize, result_ref);        
+        if (*returnSize == 0) {
+            *result_ref = malloc(sizeof(int));
+        } else {
+            *result_ref = realloc(*result_ref, 
+            (sizeof(int) * (*returnSize + 1)));
+        }
+        *((*result_ref) + *returnSize) = root->val;
+        
         *returnSize = *returnSize + 1;
-        inOrderTraversalHelper(root->right, returnSize, result);
+        inOrderTraversalHelper(root->right, returnSize, result_ref);
     }
-    
 }
 
 
-
-
-int* inorderTraversal(struct TreeNode* root, int* returnSize){
+int* inorderTraversal(struct TreeNode* root, int* returnSize) {
     int* result = NULL;
-    int** ptr = &result;
+    int ** result_ref = &result;
     returnSize = malloc(sizeof(int));
     *returnSize = 0;
     if (root != NULL) {
-        inOrderTraversalHelper(root, returnSize, ptr);
+        inOrderTraversalHelper(root, returnSize, result_ref);
     }
-    
-    for (int i = 0; i < *returnSize; i++) {
-        *(result + i) = **(ptr + i);
-    }
-   
+ 
     return result;
 }
 
@@ -58,11 +57,14 @@ int main()
     root->right = node1;
     node1->left = node2;
     int* result = inorderTraversal(root,0);
-    int* result2 = inorderTraversal(NULL,0);
+    // int* result2 = inorderTraversal(NULL,0);
     // int** result = inorderTraversal(root,0);
     // *result = 1;
     // *(result+1) = 3;
     // *(result+2) = 2;
+    printf("%d \n", result[0]);
+    printf("%d \n", result[1]);
+    printf("%d \n", result[2]);
+    printf("%d \n", result[4]);
     return 0;
-
 }
