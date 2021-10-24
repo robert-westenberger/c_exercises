@@ -4,130 +4,94 @@
 #include "uthash.h"
 
 /*
-Given an array of integers nums and an integer target, return indices of the two numbers 
-such that they add up to target.
+You are given two non-empty linked lists representing two non-negative integers. 
+The digits are stored in reverse order, and each of their nodes contains a 
+single digit. Add the two numbers and return the sum as a linked list.
 
-You may assume that each input would have exactly one solution, and you may not use the 
-same element twice.
+You may assume the two numbers do not contain any leading zero, except 
+the number 0 itself.
 
-You can return the answer in any order.
-
-A naive soln would be a nested for loop
+(The linked lists can be of different lengths)
 */
 
-struct hash_struct
-{
-  int id;
-  int index;
-  UT_hash_handle hh;
-};
-void addToMap(struct hash_struct** map, int key, int value) {
-  struct hash_struct *item = malloc(sizeof(struct hash_struct));
-  item->id = key;
-  item->index = value;
-  HASH_ADD_INT(*map, id, item);
-}
-bool mapContains(struct hash_struct** map, int key) {
-  struct hash_struct *found_item;
-  HASH_FIND_INT(*map, &key, found_item);
-  return !(found_item == NULL);
-}
-int mapGet(struct hash_struct **map, int key) {
-  struct hash_struct *found_item;
-  HASH_FIND_INT(*map, &key, found_item);
-  return found_item->index;
-}
-/*
-Optimal solution 1
-Use hash map to store array elements, using the element as 
-a key and its index as the value. Then, for each element in the array, subtract it from the 
-target value and check if it exists in the hash map. If it does, return the current index
-and the index stored in the hashmap.
-*/
-int *twoSumHash(int *nums, int numsSize, int target, int *returnSize)
-{
-  struct hash_struct *array_items = NULL;
-  int *returnValue = malloc(sizeof(int) * 2);
-  *returnSize = 2;
-  int ans = 0;
-  for (int i = 0; i < numsSize; i++)
-  {
-    int num = *(nums + i);
-    int difference = target - num;
+typedef struct ListNode {
+  int val;
+  struct ListNode *next;
+} ListNode;
 
-    if (mapContains(&array_items, difference))
-    {
-      *returnValue = mapGet(&array_items, difference);
-      *(returnValue + 1) = i;
-    }
-    else
-    {
-      addToMap(&array_items, num, i);
-    }
-  }
-  return returnValue;
-}
-void sort(int n, int *ptr)
-{
-  int i, j, t;
-
-  // Sort the numbers using pointers
-  for (i = 0; i < n; i++)
-  {
-
-    for (j = i + 1; j < n; j++)
-    {
-
-      if (*(ptr + j) < *(ptr + i))
-      {
-
-        t = *(ptr + i);
-        *(ptr + i) = *(ptr + j);
-        *(ptr + j) = t;
-      }
-    }
-  }
-}
-/*
-Optimal Solution 2 
-*/
-int *twoSumDoublePointer(int* nums, int numsSize, int target, int *returnSize) {
-  int leftIndex = 0;
-  int rightIndex = numsSize - 1;
-  int *returnValue = malloc(sizeof(int) * 2);
-  *returnSize = 2;
-  sort(numsSize, nums);
-  while (leftIndex < rightIndex) {
-    if (*(nums + leftIndex) + *(nums+rightIndex) == target) {
-      *returnValue = *(nums + leftIndex);
-      *(returnValue + 1) = *(nums + rightIndex);
-      return returnValue;
-    }
-    else if (*(nums + leftIndex) + *(nums + rightIndex) < target) {
-      leftIndex = leftIndex + 1;
-    }
-    else {
-      rightIndex = rightIndex - 1;
-    }
-  }
-
-  return returnValue;
-}
-int *twoSum(int *nums, int numsSize, int target, int *returnSize) {
-  return twoSumDoublePointer(nums, numsSize, target, returnSize);
-}
-
-int main()
-{   
+struct ListNode *addTwoNumbers(struct ListNode *l1, struct ListNode *l2) {
+  struct ListNode* returnValue = NULL;
+  struct ListNode** returnValuePtr = &returnValue;
+  int sum;
+  int count = 0;
+  int carryover = 0;
+  while(l1 != NULL || l2 != NULL) {
   
-  int* ints = malloc(sizeof(int) * 4);
-  *ints = 3;
-  *(ints + 1) = 2;
-  *(ints + 2) = 4;
+    // if (count > 0) {
+    //   (*returnValuePtr)->next = malloc(sizeof(ListNode));
+    //   returnValuePtr = &(*returnValuePtr)->next;
+    // } else {
+    //   (*returnValuePtr) = malloc(sizeof(ListNode));
+    // }
+    
+    // if (l1 != NULL && l2 != NULL) {
+    //   sum = l1->val + l2->val;
+    // } else if (l1 != NULL) {
+    //   sum = l1->val;
+    // } else {
+    //   sum = l2->val;
+    // }
+    // if (sum <= 9) {
+    //   (*returnValuePtr)->val = sum;
+    // } else {
+    //   carryover = sum - 9;
+    //   (*returnValuePtr)->val = 0;
+    //   if (l1->next != NULL && l2->next != NULL) {
+    //     if (l1->next->val >= l2->next->val) {
+    //       l2->next->val = l2->next->val + carryover;
+    //     }
+    //     else {
+    //       l1->next->val = l1->next->val + carryover;
+    //     }
+    //   } else if (l1->next != NULL) {
+    //     l1->next->val = l1->next->val + carryover;
+    //   } else if (l2->next != NULL) {
+    //     l2->next->val = l2->next->val + carryover;
+    //   } else {
+    //     l1->next = malloc(sizeof(ListNode));
+    //     l1->next->val = carryover;
+    //   }
+    // }
+    if (l1 != NULL) {
+      l1 = l1->next;
+    }
+    if (l2 != NULL) {
+      l2 = l2->next;
+    }
+    
+    count++;
+  }
+  
+  return returnValue;
+}
 
-  int returnSize = 0;
-  int* answer = twoSum(ints, 3, 6, &returnSize);
-
-
+int main() {
+  ListNode *node_1 = (struct ListNode *)malloc(sizeof(struct ListNode));
+  ListNode *node_2 = (struct ListNode *)malloc(sizeof(struct ListNode));
+  ListNode *node_3 = (struct ListNode *)malloc(sizeof(struct ListNode));
+  ListNode *node_4 = (struct ListNode *)malloc(sizeof(struct ListNode));
+  ListNode *node_5 = (struct ListNode *)malloc(sizeof(struct ListNode));
+  ListNode *node_6 = (struct ListNode *)malloc(sizeof(struct ListNode));
+  node_1->val = 2;
+  node_2->val = 4;
+  node_3->val = 3;
+  node_4->val = 5;
+  node_5->val = 9;
+  node_6->val = 4;
+  node_1->next=node_2;
+  node_2->next=node_3;
+  node_4->next=node_5;
+  node_5->next=node_6;
+  ListNode* answer = addTwoNumbers(node_1, node_4);
   return 0;
 }

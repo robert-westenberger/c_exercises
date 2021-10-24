@@ -93,6 +93,11 @@ void sort(int n, int *ptr)
 }
 /*
 Optimal Solution 2 
+Sort the array. Then, using two pointers, one initialized to the start of the pointer array
+and one at the end.
+In a while loop, while left < right, if the two values == target, then return those two
+indexes. If its less than the sum, move the left pointer one posiiton to the right.
+Otherwise, decrement the right pointer.
 */
 int *twoSumDoublePointer(int *nums, int numsSize, int target, int *returnSize)
 {
