@@ -5,7 +5,7 @@
 
 /* TODO: Worst fit heuristic */
 /*
-[5] In the bin-packing problem, we are given n metal objects, each weighing 
+In the bin-packing problem, we are given n metal objects, each weighing 
 between zero and one kilogram. Our goal is to find the smallest number of bins 
 that will hold the n objects, with each bin holding one kilogram at most.
 • The best-fit heuristic for bin packing is as follows. Consider the objects in 
